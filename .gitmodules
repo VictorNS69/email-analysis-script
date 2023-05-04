@@ -1,0 +1,3 @@
+[submodule "EmailAnalyzer"]
+	path = EmailAnalyzer
+	url = https://github.com/keraattin/EmailAnalyzer
