@@ -8,9 +8,19 @@
 ## requirements ?
 
 INPUT_FILE=$1;
-OUTPUT_DIR=$2;
+OUTPUT_DIR=${2%/};
 USAGE_AUX="Please provide only 2 arguments. Input .eml file and Output directory.
 	For more information, please check -h option.";
+	
+Banner (){
+	echo """
+ ___                                              __  ___  __  
+|__   |\/|  /\  | |        /\  |\ |  /\  |    \ /  / |__  |__) 
+|___  |  | /~~\ | |___    /~~\ | \| /~~\ |___  |  /_ |___ |  \ 
+                                                               
+                                                               """
+}
+	
 Help (){
 	echo "Usage: ./analyze.sh [input .eml file] [output directory path]
 	
@@ -31,7 +41,7 @@ Check_input_file (){
 Check_output_dir (){
 	if [[ ! -d "$OUTPUT_DIR" ]]
 	then
-		echo "The directory does not exist".;
+		echo "The directory \"$OUTPUT_DIR\"does not exist".;
 		exit 1;
 	elif [[ ! -w "$OUTPUT_DIR" ]]
 	then
@@ -41,22 +51,23 @@ Check_output_dir (){
 }
 Remove_file_if_not_exists (){
 	FILE=$1;
-	FILE_NAME=${FILE//.txt/}
+	REMOVE_SUFIX=${FILE//.txt/}
+	FILE_NAME=${REMOVE_SUFIX/#out\/}
 	if [[ ! -s $FILE ]]
 	then
 		echo "No $FILE_NAME found. No output generated.";
 		rm $FILE;
 	else
-		echo "$FILE_NAME found!";
+		echo "$FILE_NAME found! -> $FILE created.";
 	fi
 	if [[ "$FILE_NAME" = "attachments" ]]
 	then
-		echo "We recomend you to use tools such \"binwalk\" or \"strings\" to obtain more information about the attachments.";
+		echo "   We recomend you to use tools such \"binwalk\" or \"strings\" to obtain more information about the attachments.";
 	fi
-	
-	echo "no $FILE_NAME found. No output generated.";
 }
 Email_analyzer (){
+	Banner;
+	
 	# headers
 	python3 EmailAnalyzer/email-analyzer.py -H -f $INPUT_FILE > $OUTPUT_DIR/headers.txt;
 	Remove_file_if_not_exists $OUTPUT_DIR/headers.txt;
