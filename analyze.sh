@@ -41,7 +41,7 @@ Check_input_file (){
 Check_output_dir (){
 	if [[ ! -d "$OUTPUT_DIR" ]]
 	then
-		echo "The directory \"$OUTPUT_DIR\"does not exist".;
+		echo "The directory \"$OUTPUT_DIR\" does not exist".;
 		exit 1;
 	elif [[ ! -w "$OUTPUT_DIR" ]]
 	then
