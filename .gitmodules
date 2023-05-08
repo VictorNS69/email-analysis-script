@@ -1,3 +1,6 @@
 [submodule "EmailAnalyzer"]
 	path = EmailAnalyzer
 	url = https://github.com/keraattin/EmailAnalyzer
+[submodule "email-outlook-message-perl"]
+	path = email-outlook-message-perl
+	url = https://github.com/mvz/email-outlook-message-perl.git
