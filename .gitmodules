@@ -1,6 +1,3 @@
 [submodule "EmailAnalyzer"]
 	path = EmailAnalyzer
 	url = https://github.com/keraattin/EmailAnalyzer
-[submodule "msgconvert"]
-	path = msgconvert
-	url = https://github.com/mvz/msgconvert.git
