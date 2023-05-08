@@ -57,6 +57,7 @@ Remove_file_if_not_exists (){
 	then
 		echo "No $FILE_NAME found. No output generated.";
 		rm $FILE;
+		exit 0;
 	else
 		echo "$FILE_NAME found! -> $FILE created.";
 	fi
@@ -69,15 +70,15 @@ Email_analyzer (){
 	Banner;
 	
 	# headers
-	python3 EmailAnalyzer/email-analyzer.py -H -f $INPUT_FILE > $OUTPUT_DIR/headers.txt;
+	python3 EmailAnalyzer/email-analyzer.py -H -f "$INPUT_FILE" > $OUTPUT_DIR/headers.txt;
 	Remove_file_if_not_exists $OUTPUT_DIR/headers.txt;
 	
 	# digests
-	python3 EmailAnalyzer/email-analyzer.py -d -f $INPUT_FILE > $OUTPUT_DIR/digests.txt;
+	python3 EmailAnalyzer/email-analyzer.py -d -f "$INPUT_FILE" > $OUTPUT_DIR/digests.txt;
 	Remove_file_if_not_exists $OUTPUT_DIR/digests.txt;
 	
 	# URL links
-	python3 EmailAnalyzer/email-analyzer.py -l -f $INPUT_FILE > $OUTPUT_DIR/links_temp.txt;
+	python3 EmailAnalyzer/email-analyzer.py -l -f "$INPUT_FILE" > $OUTPUT_DIR/links_temp.txt;
 	
 	cat $OUTPUT_DIR/links_temp.txt | grep http | awk -F['->'] '{print $3}' > $OUTPUT_DIR/urls.txt;
 	Remove_file_if_not_exists $OUTPUT_DIR/urls.txt;
@@ -88,7 +89,7 @@ Email_analyzer (){
 	rm $OUTPUT_DIR/links_temp.txt;
 
 	# Attachments
-	python3 EmailAnalyzer/email-analyzer.py -a -f $INPUT_FILE | grep ] | awk -F['->'] '{print $3}' > $OUTPUT_DIR/attachments.txt;
+	python3 EmailAnalyzer/email-analyzer.py -a -f "$INPUT_FILE" | grep ] | awk -F['->'] '{print $3}' > $OUTPUT_DIR/attachments.txt;
 	Remove_file_if_not_exists $OUTPUT_DIR/attachments.txt;
 	
 	echo "Script finished. You can find the reports in $OUTPUT_DIR/*.";
